@@ -1,6 +1,18 @@
 import styles from './Input.module.css';
+import React, { useRef, useImperativeHandle } from 'react';
 
-const Input = (props) => {
+const Input = React.forwardRef((props, ref) => {
+  const inputRef = useRef();
+
+  const activate = () => {
+    inputRef.current.focus();
+  };
+  useImperativeHandle(ref, () => {
+    return {
+      activateD: activate,
+    };
+  });
+
   return (
     <div
       className={`${styles.control} ${
@@ -14,9 +26,10 @@ const Input = (props) => {
         value={props.value}
         onChange={props.changeHandler}
         onBlur={props.validateChangeHandler}
+        ref={inputRef}
       />
     </div>
   );
-};
+});
 
 export default Input;
